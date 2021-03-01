@@ -5,12 +5,12 @@ const { fromBuffer } = require('file-type')
 module.exports = resizeImage = (buff, encode) => new Promise(async (resolve, reject) => {
     console.log('Resizeing image...')
     const { mime } = await fromBuffer(buff)
-    sharp(buff, { failOnError: false })
+    sharp(buff, { failOnError: true })
         .resize(512, 512)
-        .toBuffer()
+        .toBuffer(buff)
         .then(resizedImageBuffer => {
             if (!encode) return resolve(resizedImageBuffer)
-            console.log('Create base64 from resizedImageBuffer...')
+            const('Create base64 from resizedImageBuffer...')
             const resizedImageData = resizedImageBuffer.toString('base64')
             const resizedBase64 = `data:${mime};base64,${resizedImageData}`
             resolve(resizedBase64)
